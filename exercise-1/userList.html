@@ -18,6 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="static/js/common-utility.js"></script>
 
 <script src="static/js/all-helper.js"></script>
   
@@ -32,66 +33,8 @@
     </div>
 
 
-
 <script type="text/javascript">
-  
-  let commonUtility = {
-
-    httpGet: "GET",
-    httpPost: "POST",
-    serverURL: "https://5dc588200bbd050014fb8ae1.mockapi.io/assessment",
-
-    loadFromControllerAndAddToComponent: function(url, method, successCallback, errorCallback)
-     {
-      $.ajax({
-            type: method,
-            url: url,
-            data: {},
-            success: function (response) {
-                successCallback(response)
-            },
-            error: function (err) {
-                errorCallback(err)
-            }
-        })
-    },
-
-    getHbsPromise:function(templateName) {
-            return new Promise(function(resolve, reject) {
-                $.ajax({
-                    url: "/static/hbs-templates/" + templateName + '.hbs',
-                    method: 'GET',
-                    async: false,
-                    cache: true,
-                    success: function(data) {
-                        resolve(data);
-                    },
-                    error: function (error) {
-                        console.log("error while reading file=", error)
-                        reject(error)
-                    }
-                });
-            })
-        },
-
-    successCallback: function(userList) {
-
-      commonUtility.getHbsPromise("userList").then((userHtml)=> {
-        const userTemplate = Handlebars.compile(userHtml);
-        const userDOM = userTemplate({userList:userList});
-        $("#userList").html(userDOM);
-      });
-    }, 
-
-    errorCallback: function(errData) {
-      console.warn("Errro while fetching data==", errData);
-    }
-  }
-
-    commonUtility.loadFromControllerAndAddToComponent(
-    commonUtility.serverURL, 
-    commonUtility.httpGet, commonUtility.successCallback, commonUtility.errorCallback);
-  
+    commonUtility.renderData();
   </script>
 
 
